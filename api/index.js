@@ -45,6 +45,7 @@ app.get('/patients', async (req, res) => {
     const { firstname, lastname, insurance_provider } = req.query;
     const settingsResults = await pool.query('SELECT parameterized, validation FROM settings WHERE id = 1');
     const { parameterized, validation } = settingsResults.rows[0]
+    let values = [];
     console.log('Settings: parameterized = ', parameterized, ', validation = ', validation);
     if(validation == true) {
         const errors = validateFilters(req.query);
@@ -59,17 +60,17 @@ app.get('/patients', async (req, res) => {
         const conditions = [];
         if (parameterized == true) {
             if (firstname) {
-                values.push(`%${firstname.toLowerCase()}%`); // Add to values array
-                conditions.push(`LOWER(first_name) LIKE $${values.length}`); // Use $<index> as placeholder
+                values.push(`%${firstname.toLowerCase()}%`);
+                conditions.push(`LOWER(first_name) LIKE $${values.length}`);
             }
 
             if (lastname) {
-                values.push(`%${lastname.toLowerCase()}%`); // Add to values array
+                values.push(`%${lastname.toLowerCase()}%`);
                 conditions.push(`LOWER(last_name) LIKE $${values.length}`);
             }
 
             if (insurance_provider) {
-                values.push(`%${insurance_provider}%`); // Add to values array
+                values.push(`%${insurance_provider}%`);
                 conditions.push(`insurance_provider LIKE $${values.length}`);
             }
         } else {
