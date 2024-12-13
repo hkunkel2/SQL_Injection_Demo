@@ -25,8 +25,8 @@ function App() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     insurance_provider: '',
   });
   const [error, setError] = useState('');
@@ -73,17 +73,17 @@ function App() {
   };
 
   const validateInputs = () => {
-    if (!filters.firstName && !filters.lastName && !filters.insurance_provider) {
+    if (!filters.firstname && !filters.lastname && !filters.insurance_provider) {
       setError('At least one filter must be provided.');
       return false;
     }
 
-    if (filters.firstName && !/^[a-zA-Z]+$/.test(filters.firstName)) {
+    if (filters.firstname && !/^[a-zA-Z]+$/.test(filters.firstname)) {
       setError('First name must only contain letters.');
       return false;
     }
 
-    if (filters.lastName && !/^[a-zA-Z]+$/.test(filters.lastName)) {
+    if (filters.lastname && !/^[a-zA-Z]+$/.test(filters.lastname)) {
       setError('Last name must only contain letters.');
       return false;
     }
@@ -107,8 +107,8 @@ function App() {
     setLoading(true);
 
     const params = new URLSearchParams();
-    if (filters.firstName) params.append('firstname', filters.firstName);
-    if (filters.lastName) params.append('lastname', filters.lastName);
+    if (filters.firstname) params.append('firstname', filters.firstname);
+    if (filters.lastname) params.append('lastname', filters.lastname);
     if (filters.insurance_provider) params.append('insurance_provider', filters.insurance_provider);
 
     fetch(`http://localhost:3001/patients?${params.toString()}`)
@@ -196,7 +196,7 @@ function App() {
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6">Current Settings:</Typography>
         <Typography>Frontend Validation: {settings.frontendValidation ? 'Enabled' : 'Disabled'}</Typography>
-        <Typography>Input Validation: {settings.validation ? 'Enabled' : 'Disabled'}</Typography>
+        <Typography>Backend Validation: {settings.validation ? 'Enabled' : 'Disabled'}</Typography>
         <Typography>Parameterized Queries: {settings.parameterized ? 'Enabled' : 'Disabled'}</Typography>
         <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
           <Button variant="contained" color="info" onClick={toggleFrontendValidation}>
@@ -215,8 +215,8 @@ function App() {
         <TextField
           label="First Name"
           variant="outlined"
-          name="firstName"
-          value={filters.firstName}
+          name="firstname"
+          value={filters.firstname}
           onChange={handleInputChange}
           size="small"
           error={!!error}
@@ -224,8 +224,8 @@ function App() {
         <TextField
           label="Last Name"
           variant="outlined"
-          name="lastName"
-          value={filters.lastName}
+          name="lastname"
+          value={filters.lastname}
           onChange={handleInputChange}
           size="small"
           error={!!error}

@@ -22,11 +22,11 @@ const validInsuranceProviders = ['HealthPlus', 'MediCare', 'InsureCorp', 'Wellne
 const validateFilters = (filters) => {
   const errors = [];
 
-  if (filters.firstName && !/^[a-zA-Z]+$/.test(filters.firstName)) {
+  if (filters.firstname && !/^[a-zA-Z]+$/.test(filters.firstname)) {
     errors.push('First name must contain only letters.');
   }
 
-  if (filters.lastName && !/^[a-zA-Z]+$/.test(filters.lastName)) {
+  if (filters.lastname && !/^[a-zA-Z]+$/.test(filters.lastname)) {
     errors.push('Last name must contain only letters.');
   }
 
@@ -34,6 +34,7 @@ const validateFilters = (filters) => {
     filters.insurance_provider &&
     !validInsuranceProviders.includes(filters.insurance_provider)
   ) {
+    console.log('validation 1 failed');
     errors.push('Invalid insurance provider selected.');
   }
 
@@ -44,10 +45,11 @@ app.get('/patients', async (req, res) => {
     const { firstname, lastname, insurance_provider } = req.query;
     const settingsResults = await pool.query('SELECT parameterized, validation FROM settings WHERE id = 1');
     const { parameterized, validation } = settingsResults.rows[0]
-    console.log('Settings:', parameterized, validation);
+    console.log('Settings: parameterized = ', parameterized, ', validation = ', validation);
     if(validation == true) {
         const errors = validateFilters(req.query);
         if (errors.length > 0) {
+          console.log('Validation errors:', errors);
             return res.status(400).json({ errors });
         }
     }
