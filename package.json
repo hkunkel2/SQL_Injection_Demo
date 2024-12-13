@@ -1,0 +1,15 @@
+{
+  "name": "sql_injection_demo",
+  "version": "1.0.0",
+  "description": "This is a demo project for Intro to Cyber Security that shows how a SQL injection works and how to protect against it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.1"
+  }
+}
